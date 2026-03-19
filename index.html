@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVR, Inc. — Fedeli Group Equity Research</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #111;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+/* Fedeli Group Branding */
+.report-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #AD9551;
+}
+.brand-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: #1a1a2e;
+  letter-spacing: 0.04em;
+}
+.brand-sub {
+  font-size: 12px;
+  color: #AD9551;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.report-date {
+  font-size: 13px;
+  color: #555;
+  text-align: right;
+}
+
+/* Section 1 - Header */
+.header-table {
+  width: 100%;
+  font-size: 15px;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+}
+.header-table th {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 10px 12px;
+  text-align: left;
+}
+.header-table td {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+}
+.header-table td.metric-cell {
+  text-align: center;
+}
+.metric-label {
+  font-size: 11px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+}
+.metric-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #1a1a2e;
+}
+.rating-val {
+  color: #AD9551;
+}
+.val-row td {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 10px 14px;
+}
+.val-label {
+  font-size: 12px;
+  color: #555;
+  display: block;
+  margin-bottom: 2px;
+}
+.val-num {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1a1a2e;
+}
+
+/* Section 2 - Data Block */
+.data-block {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+.company-snapshot {
+  flex: 0 0 290px;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.company-snapshot h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #1a1a2e;
+  border-bottom: 2px solid #AD9551;
+  padding-bottom: 6px;
+}
+.snapshot-meta {
+  font-size: 13px;
+  color: #555;
+  margin-top: 12px;
+  line-height: 1.7;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+}
+
+/* Right column */
+.right-col {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Price Range Bar */
+.price-range-bar {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 0;
+}
+.price-range-bar th {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 6px 8px;
+  text-align: center;
+}
+.price-range-bar td {
+  padding: 6px 8px;
+  text-align: center;
+  border: 1px solid #ccc;
+  line-height: 1.4;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.price-range-bar td.est-col {
+  background-color: #f0f0f0;
+  color: #555;
+  font-style: italic;
+}
+
+/* Chart container */
+.chart-container {
+  width: 100%;
+  height: 220px;
+  margin-bottom: 0;
+}
+
+/* Financial Table */
+.financial-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.financial-table th {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 8px 10px;
+  text-align: right;
+  white-space: nowrap;
+}
+.financial-table th:first-child {
+  text-align: left;
+}
+.financial-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: right;
+  white-space: nowrap;
+}
+.financial-table td:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+.financial-table tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+.financial-table td.est {
+  color: #666;
+  font-style: italic;
+}
+.section-row td {
+  background-color: #e8e8f0 !important;
+  font-weight: bold;
+  font-size: 12px;
+  color: #333;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+}
+
+/* Section 3 - Narrative */
+.narrative {
+  font-size: 17px;
+  line-height: 1.85;
+  max-width: 960px;
+  border-top: 2px solid #1a1a2e;
+  padding-top: 24px;
+}
+.narrative p {
+  margin-bottom: 20px;
+}
+.narrative h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #AD9551;
+  margin-bottom: 6px;
+  margin-top: 28px;
+}
+.analyst-sig {
+  font-size: 15px;
+  color: #555;
+  margin-top: 24px;
+  font-style: italic;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 12px;
+}
+.verdict-box {
+  background: #1a1a2e;
+  color: white;
+  border-left: 5px solid #AD9551;
+  padding: 14px 20px;
+  margin: 20px 0;
+  font-size: 15px;
+}
+.verdict-box strong {
+  color: #AD9551;
+  font-size: 17px;
+}
+
+/* Rating badges */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: bold;
+}
+.badge-gold { background: #AD9551; color: white; }
+.badge-navy { background: #1a1a2e; color: white; }
+</style>
+</head>
+<body>
+
+<!-- Fedeli Group Branding -->
+<div class="report-brand">
+  <div>
+    <div class="brand-name">THE FEDELI GROUP</div>
+    <div class="brand-sub">Equity Research &nbsp;|&nbsp; Investment Advisory</div>
+  </div>
+  <div class="report-date">
+    Report Date: March 19, 2026<br>
+    <span style="color:#AD9551;font-weight:bold;">NVR, INC. (NYSE: NVR)</span>
+  </div>
+</div>
+
+<!-- ===== SECTION 1: HEADER TABLE ===== -->
+<table class="header-table">
+  <thead>
+    <tr>
+      <th>Company &amp; Ticker</th>
+      <th>Recent Price</th>
+      <th>Trailing P/E</th>
+      <th>Forward P/E</th>
+      <th>Dividend Yield</th>
+      <th>Market Cap</th>
+      <th>Beta</th>
+      <th>Timeliness</th>
+      <th>Safety</th>
+      <th>Financial Strength</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>NVR, Inc.</strong><br><span style="font-size:13px;color:#777;">NYSE: NVR — Homebuilding</span></td>
+      <td class="metric-cell"><span class="metric-value">$6,483</span></td>
+      <td class="metric-cell"><span class="metric-value">14.9x</span></td>
+      <td class="metric-cell"><span class="metric-value">16.1x</span></td>
+      <td class="metric-cell"><span class="metric-value">0.0%</span></td>
+      <td class="metric-cell"><span class="metric-value">$19.9B</span></td>
+      <td class="metric-cell"><span class="metric-value">1.10</span></td>
+      <td class="metric-cell"><span class="metric-value rating-val">3</span> <span style="font-size:11px;color:#999;">(Avg)</span></td>
+      <td class="metric-cell"><span class="metric-value rating-val">2</span> <span style="font-size:11px;color:#999;">(Abv Avg)</span></td>
+      <td class="metric-cell"><span class="metric-value">A+</span></td>
+    </tr>
+    <tr class="val-row">
+      <td colspan="2" style="text-align:center;">
+        <span class="val-label">EV/EBITDA (TTM)</span>
+        <span class="val-num">10.8x</span>
+      </td>
+      <td colspan="3" style="text-align:center;">
+        <span class="val-label">EV/EBITDA +1 Yr (E) — CY 2026</span>
+        <span class="val-num">12.7x</span>
+      </td>
+      <td colspan="3" style="text-align:center;">
+        <span class="val-label">EV/EBITDA +2 Yr (E) — CY 2027</span>
+        <span class="val-num">11.5x</span>
+      </td>
+      <td colspan="2" style="text-align:center;">
+        <span class="val-label">PEG Ratio</span>
+        <span class="val-num">N/M</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===== SECTION 2: MAIN DATA BLOCK ===== -->
+<div class="data-block">
+
+  <!-- LEFT: Company Snapshot -->
+  <div class="company-snapshot">
+    <h2>Company Snapshot</h2>
+    <p>NVR, Inc. is a pure-play residential homebuilder operating exclusively through a build-to-order model that eliminates speculative inventory — a structural differentiator that has compounded the company's ROE well above peers for three decades. It operates under three brands: Ryan Homes (entry-level and first move-up buyers, the volume engine), NVHomes (luxury/move-up, concentrated in the Mid-Atlantic), and Heartland Homes (Midwest premium). Revenue in fiscal 2025 was $10.3 billion across 21,915 deliveries at an average selling price of $460,600. NVR's singular competitive moat is its lot option model: rather than owning raw land — the capital-destroyers' trap that buried peers in 2008 — NVR holds purchase options, keeping land risk off-balance-sheet and generating 30%+ ROE on a lean asset base. A complementary mortgage banking segment (~$230M revenue) provides integrated origination and adds modest earnings stability. Geographic concentration in the Mid-Atlantic, Southeast, and Midwest (37+ markets across 15+ states) is both strength and risk — high market share in core geographies but limited diversification against regional downturns. The stock trades at 16.1x CY 2026E earnings, near the lower end of its post-pandemic 9x–25x historical range, as declining earnings and a weakening backlog (-15% year-over-year) have pressured the multiple. NVR has delivered 22,000+ homes annually in a normalized market and maintains a net cash buffer exceeding $1.0 billion.</p>
+    <div class="snapshot-meta">
+      <strong>HQ:</strong> Reston, Virginia<br>
+      <strong>CEO:</strong> Eugene Bredow (since 2023)<br>
+      <strong>Ticker:</strong> NVR (NYSE)<br>
+      <strong>Website:</strong> nvrholdings.com<br>
+      <strong>Founded:</strong> 1948<br>
+      <strong>Employees:</strong> ~6,300<br>
+      <strong>Next Earnings:</strong> April 28, 2026
+    </div>
+  </div>
+
+  <!-- RIGHT: Price Bar + Chart + Table -->
+  <div class="right-col">
+
+    <!-- Annual Price Range Bar -->
+    <table class="price-range-bar">
+      <thead>
+        <tr>
+          <th>CY '21</th>
+          <th>CY '22</th>
+          <th>CY '23</th>
+          <th>CY '24</th>
+          <th>CY '25</th>
+          <th>CY '26E</th>
+          <th>CY '27E</th>
+          <th>'28–'30E</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>H: $6,413<br>L: $4,921</td>
+          <td>H: $5,808<br>L: $3,428</td>
+          <td>H: $7,773<br>L: $5,883</td>
+          <td>H: $9,924<br>L: $7,067</td>
+          <td>H: $8,618<br>L: $6,483</td>
+          <td class="est-col">H: ~$7,200<br>L: ~$5,800</td>
+          <td class="est-col">H: ~$8,500<br>L: ~$6,500</td>
+          <td class="est-col">H: ~$10,000<br>L: ~$7,500</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Dual-Axis Chart -->
+    <div class="chart-container">
+      <canvas id="nvrChart"></canvas>
+    </div>
+
+    <!-- Financial Table -->
+    <table class="financial-table">
+      <thead>
+        <tr>
+          <th>Fiscal Year (Dec)</th>
+          <th>CY '21</th>
+          <th>CY '22</th>
+          <th>CY '23</th>
+          <th>CY '24</th>
+          <th>CY '25</th>
+          <th>CY '26E</th>
+          <th>CY '27E</th>
+          <th>'28–'30 (E)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- PER SHARE DATA -->
+        <tr class="section-row"><td colspan="9">Per Share Data</td></tr>
+        <tr>
+          <td>Revenues per Share</td>
+          <td>$2,498.51</td><td>$3,310.60</td><td>$2,994.06</td><td>$3,435.02</td><td>$3,635.92</td>
+          <td class="est">$3,484.81</td><td class="est">$3,709.44</td><td class="est">~$3,750</td>
+        </tr>
+        <tr>
+          <td>"Cash Flow" per Share</td>
+          <td>$325.81</td><td>$517.94</td><td>$448.16</td><td>$465.56</td><td>$448.24</td>
+          <td class="est">$410.91</td><td class="est">$473.32</td><td class="est">~$540</td>
+        </tr>
+        <tr>
+          <td>Earnings per Share</td>
+          <td>$320.48</td><td>$491.82</td><td>$463.31</td><td>$506.69</td><td>$436.55</td>
+          <td class="est">$402.47</td><td class="est">$465.12</td><td class="est">~$535</td>
+        </tr>
+        <tr>
+          <td>Dist. Decl'd per Share</td>
+          <td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td>
+          <td class="est">$0.00</td><td class="est">$0.00</td><td class="est">$0.00</td>
+        </tr>
+        <tr>
+          <td>Cap'l Spending per Share</td>
+          <td>$4.46</td><td>$5.40</td><td>$6.85</td><td>$7.53</td><td>$8.31</td>
+          <td class="est">$8.03</td><td class="est">$8.51</td><td class="est">~$10.50</td>
+        </tr>
+        <tr>
+          <td>Book Value per Share</td>
+          <td>$825.60</td><td>$1,029.01</td><td>$1,282.34</td><td>$1,287.88</td><td>$1,291.13</td>
+          <td class="est">$1,246.55</td><td class="est">$1,224.23</td><td class="est">~$1,360</td>
+        </tr>
+        <tr>
+          <td>Shares/Units Outstanding (M)</td>
+          <td>3.86</td><td>3.51</td><td>3.44</td><td>3.32</td><td>3.07</td>
+          <td class="est">2.89</td><td class="est">2.73</td><td class="est">~2.50</td>
+        </tr>
+        <!-- VALUATION -->
+        <tr class="section-row"><td colspan="9">Valuation</td></tr>
+        <tr>
+          <td>Avg Ann'l P/E Ratio</td>
+          <td>18.4x</td><td>9.4x</td><td>15.1x</td><td>16.1x</td><td>16.7x</td>
+          <td class="est">15.9x</td><td class="est">13.8x</td><td class="est">~12.0x</td>
+        </tr>
+        <tr>
+          <td>Relative P/E Ratio</td>
+          <td>0.68</td><td>0.49</td><td>0.66</td><td>0.62</td><td>0.67</td>
+          <td class="est">0.72</td><td class="est">0.63</td><td class="est">~0.60</td>
+        </tr>
+        <tr>
+          <td>Avg Ann'l Dist. Yield</td>
+          <td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td>
+          <td class="est">0.0%</td><td class="est">0.0%</td><td class="est">0.0%</td>
+        </tr>
+        <!-- INCOME STATEMENT -->
+        <tr class="section-row"><td colspan="9">Income Statement</td></tr>
+        <tr>
+          <td>Revenues ($mill)</td>
+          <td>$8,701.7</td><td>$10,580.3</td><td>$9,518.2</td><td>$10,524.5</td><td>$10,324.0</td>
+          <td class="est">$9,735.7</td><td class="est">$10,363.3</td><td class="est">~$10,400</td>
+        </tr>
+        <tr>
+          <td>Operating Margin (%)</td>
+          <td>16.8%</td><td>20.4%</td><td>18.9%</td><td>17.5%</td><td>15.3%</td>
+          <td class="est">14.7%</td><td class="est">15.2%</td><td class="est">~16.5%</td>
+        </tr>
+        <tr>
+          <td>Depreciation ($mill)</td>
+          <td>$20.0</td><td>$18.0</td><td>$18.5</td><td>$19.0</td><td>$22.5</td>
+          <td class="est">$23.5</td><td class="est">$24.2</td><td class="est">~$26.0</td>
+        </tr>
+        <tr>
+          <td>Net Profit ($mill)</td>
+          <td>$1,236.7</td><td>$1,725.6</td><td>$1,591.6</td><td>$1,681.9</td><td>$1,339.8</td>
+          <td class="est">$1,162.5</td><td class="est">$1,268.4</td><td class="est">~$1,341</td>
+        </tr>
+        <tr>
+          <td>Income Tax Rate (%)</td>
+          <td>22.3%</td><td>23.4%</td><td>17.5%</td><td>20.5%</td><td>24.0%</td>
+          <td class="est">23.9%</td><td class="est">23.9%</td><td class="est">~24.0%</td>
+        </tr>
+        <tr>
+          <td>Net Profit Margin (%)</td>
+          <td>14.2%</td><td>16.3%</td><td>16.7%</td><td>16.0%</td><td>13.0%</td>
+          <td class="est">11.9%</td><td class="est">12.2%</td><td class="est">~12.9%</td>
+        </tr>
+        <!-- BALANCE SHEET -->
+        <tr class="section-row"><td colspan="9">Balance Sheet</td></tr>
+        <tr>
+          <td>Working Cap'l ($mill)</td>
+          <td>$4,145.1</td><td>$4,028.1</td><td>$4,740.1</td><td>$4,656.4</td><td>$4,163.9</td>
+          <td class="est">$3,479.5</td><td class="est">$2,820.1</td><td class="est">~$2,500</td>
+        </tr>
+        <tr>
+          <td>Long-Term Debt ($mill)</td>
+          <td>$1,516.0</td><td>$915.0</td><td>$913.0</td><td>$911.0</td><td>$909.0</td>
+          <td class="est">$909.0</td><td class="est">$909.0</td><td class="est">~$909</td>
+        </tr>
+        <tr>
+          <td>Shareholders' Capital ($mill)</td>
+          <td>$3,002.4</td><td>$3,506.9</td><td>$4,364.9</td><td>$4,210.0</td><td>$3,864.9</td>
+          <td class="est">$3,385.1</td><td class="est">$3,129.6</td><td class="est">~$3,315</td>
+        </tr>
+        <!-- RETURNS -->
+        <tr class="section-row"><td colspan="9">Returns &amp; Distributions</td></tr>
+        <tr>
+          <td>Return on Total Cap'l (%)</td>
+          <td>27.3%</td><td>38.9%</td><td>30.0%</td><td>32.8%</td><td>28.0%</td>
+          <td class="est">27.0%</td><td class="est">31.3%</td><td class="est">~32.0%</td>
+        </tr>
+        <tr>
+          <td>Return on Shareholders' Cap'l (%)</td>
+          <td>38.8%</td><td>47.8%</td><td>36.1%</td><td>39.3%</td><td>33.8%</td>
+          <td class="est">32.3%</td><td class="est">38.0%</td><td class="est">~39.0%</td>
+        </tr>
+        <tr>
+          <td>Retained to Shareholders' Cap'l (%)</td>
+          <td>38.8%</td><td>47.8%</td><td>36.1%</td><td>39.3%</td><td>33.8%</td>
+          <td class="est">32.3%</td><td class="est">38.0%</td><td class="est">~39.0%</td>
+        </tr>
+        <tr>
+          <td>All Dist. to Net Profit (%)</td>
+          <td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td>
+          <td class="est">0.0%</td><td class="est">0.0%</td><td class="est">0.0%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- end right-col -->
+</div><!-- end data-block -->
+
+<!-- ===== SECTION 3: ANALYST NARRATIVE ===== -->
+<div class="narrative">
+
+  <h3>Recent Results — Fiscal Year 2025</h3>
+  <p>NVR's fiscal 2025 was a study in cyclical compression — the business held up operationally while margin and earnings contracted sharply, and the forward trajectory weakened more than the headline numbers suggest. Revenue of $10.3 billion was down 1.9% year-over-year, but earnings per share fell a more significant 13.9% to $436.55 as homebuilder gross margin compressed to 21.4% from 23.7% in 2024 — giving back virtually all of the pandemic-era gains that took the metric to 26% in 2022. Deliveries fell approximately 4% to 21,915 units, partially cushioned by a 2.2% increase in average selling price to $460,600. The real concern, however, sits in the order book: new orders declined 9.6% to 20,410 units for the year, and year-end backlog fell to 8,448 units — an 18% decline from 9,953 units the prior year — that telegraphs continued revenue and earnings pressure through at least mid-2026. Earnings quality was reasonable; free cash flow of $1.17B represented 87% of GAAP net income, and the company deployed $1.94B in share buybacks, reducing the share count roughly 6% to 3.07 million. The balance sheet remains fortress-like: $1.96B in cash against $909M in long-term debt leaves NVR in a net cash position of approximately $1.0B — a meaningful financial buffer that competitors owning raw land cannot replicate.</p>
+
+  <h3>Outlook — Next 12 to 24 Months</h3>
+  <p>Three vectors will determine whether the current earnings trough marks a value entry point or a value trap. First, mortgage rate trajectory: with the 30-year fixed rate still elevated in the low-to-mid 6% range, affordability remains the structural chokepoint for demand; forward estimates embed an order-book recovery beginning in CY 2027 (+8.6% new orders implied), which requires at least one meaningful Fed rate cut cycle to materialize. Second, gross margin stabilization: at 21.4%, NVR's margins have receded from cycle-peak levels; the 20–21% range should prove a cyclical floor if the company maintains its traditional pricing discipline and resists the incentive creep its larger-scale peers (D.R. Horton, Lennar) are already deploying to clear inventory — but if incentive competition intensifies and NVR is forced to respond, the floor could give way. Third, capital allocation mechanics: NVR is guiding toward approximately $1.55B in buybacks in 2026 even as working capital declines from $4.2B to an estimated $3.5B, a deliberate equity compression strategy that mechanically grows per-share metrics even as absolute earnings decline. This flywheel works as long as the balance sheet can absorb it — and at $909M in fixed LTD against $3.9B in equity, there is ample room. The most credible bear case is not operational failure but a hard landing scenario that pushes new orders toward 18,000 units (the 2022 floor) and forces NVR to let options expire and sit on negative operating leverage. Management's lot-option discipline eliminates the worst outcomes, but it cannot conjure demand that isn't there.</p>
+
+  <h3>Valuation &amp; Recommendation</h3>
+
+  <div class="verdict-box">
+    <strong>RATING: BUY &nbsp;|&nbsp; 12-Month Price Target: $7,900</strong><br>
+    Applied multiple: 17.0x blended CY 2026E/CY 2027E EPS (~$465 blended) — NVR's normalized mid-cycle P/E premium to the broader homebuilder sector, reflecting the structural moat of its asset-light lot-option model and consistently superior returns on capital.
+  </div>
+
+  <p>NVR at $6,483 trades at 16.1x forward CY 2026E earnings and 12.7x forward EV/EBITDA — neither cheap on an absolute basis nor expensive relative to its own history, but at what appears to be peak-fear territory. The stock has now fallen approximately 35% from its all-time high of $9,924 set in October 2024 and has recently breached its 52-week low, with Wall Street analysts aggressively cutting price targets as the backlog weakness has become undeniable. The core analytical question is whether this is a cyclical trough or a structural impairment: the evidence strongly favors the former. NVR's lot-option model — perhaps the most defensible competitive moat in homebuilding — generates 30%+ return on equity through the cycle, requires no speculative land inventory, and produces free cash flow that the company systematically returns to shareholders through buybacks. The current margin compression is entirely consistent with past cycles (2007–2009, 2018–2019) and does not reflect a permanent structural change. The single condition that would flip this view from BUY to SELL is evidence that U.S. mortgage rates become structurally anchored above 7% through 2027, which would validate the bear thesis that current consensus estimates still embed too optimistic an affordability assumption and that the housing market is entering a genuinely prolonged downturn rather than a rate-induced pause. Short of that scenario, patience from the $6,400–$6,500 range has historically been well-rewarded with NVR.</p>
+
+  <p class="analyst-sig">
+    Fedeli Group Investment Research | Report Date: March 19, 2026 | Next Expected Earnings: April 28, 2026 (Q1 2026)
+    <br><em>All estimates flagged (E). This report is for informational purposes only and does not constitute investment advice. Past performance is not indicative of future results. Financial data sourced from company filings and FactSet Fundamentals as of March 19, 2026.</em>
+  </p>
+</div>
+
+<!-- ===== CHART.JS SCRIPT ===== -->
+<script>
+const labels = ['CY \'21', 'CY \'22', 'CY \'23', 'CY \'24', 'CY \'25', 'CY \'26E', 'CY \'27E'];
+const epsActual    = [320.48, 491.82, 463.31, 506.69, 436.55, null, null];
+const epsEstimate  = [null,   null,   null,   null,   null,   402.47, 465.12];
+const relPEActual  = [0.68, 0.49, 0.66, 0.62, 0.67, null, null];
+const relPEEst     = [null, null, null, null, null, 0.72, 0.63];
+
+const ctx = document.getElementById('nvrChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        type: 'bar',
+        label: 'EPS ($) — Actual',
+        data: epsActual,
+        backgroundColor: '#1a1a2e',
+        yAxisID: 'yLeft',
+        order: 2
+      },
+      {
+        type: 'bar',
+        label: 'EPS ($) — Estimate',
+        data: epsEstimate,
+        backgroundColor: '#7f8fa6',
+        yAxisID: 'yLeft',
+        order: 2
+      },
+      {
+        type: 'line',
+        label: 'Relative P/E — Actual',
+        data: relPEActual,
+        borderColor: '#c0392b',
+        borderWidth: 2,
+        pointRadius: 4,
+        pointBackgroundColor: '#c0392b',
+        fill: false,
+        tension: 0.3,
+        yAxisID: 'yRight',
+        order: 1
+      },
+      {
+        type: 'line',
+        label: 'Relative P/E — Estimate',
+        data: relPEEst,
+        borderColor: '#e67e73',
+        borderWidth: 2,
+        borderDash: [6, 3],
+        pointRadius: 4,
+        pointBackgroundColor: '#e67e73',
+        fill: false,
+        tension: 0.3,
+        yAxisID: 'yRight',
+        order: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { boxWidth: 14, font: { size: 11 } }
+      }
+    },
+    scales: {
+      yLeft: {
+        type: 'linear',
+        position: 'left',
+        title: { display: true, text: 'EPS ($)', font: { size: 11 } },
+        beginAtZero: true,
+        grid: { color: '#e8e8e8' }
+      },
+      yRight: {
+        type: 'linear',
+        position: 'right',
+        title: { display: true, text: 'Relative P/E', font: { size: 11 } },
+        min: 0,
+        max: 1.2,
+        grid: { drawOnChartArea: false },
+        ticks: { stepSize: 0.2 }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
